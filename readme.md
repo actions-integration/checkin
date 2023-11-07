@@ -2,7 +2,7 @@
 
 GitHub Actions 实现 [GLaDOS][glados] 自动签到
 
-([GLaDOS][glados] 可用邀请码: `MW4DK-O0RSF-C7AOU-EN1MP`, 双方都有奖励天数)
+([GLaDOS][glados] 可用邀请码: `KSAGV-YOOYZ-ALON5-4AM7H`, 双方都有奖励天数)
 
 ## 使用说明
 
@@ -16,5 +16,5 @@ GitHub Actions 实现 [GLaDOS][glados] 自动签到
 
 1. 如需推送通知, 可用 [PushPlus][pushplus], 添加 Token 到 Secret `NOTIFY`
 
-[glados]: https://github.com/glados-network/GLaDOS
+[glados]: [https://github.com/glados-network/GLaDOS](https://glados.space/landing/KSAGV-YOOYZ-ALON5-4AM7H)https://glados.space/landing/KSAGV-YOOYZ-ALON5-4AM7H
 [pushplus]: https://www.pushplus.plus/
