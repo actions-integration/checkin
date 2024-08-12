@@ -9,13 +9,11 @@ const glados = async () => {
     }
     const checkin = await fetch('https://glados.rocks/api/user/checkin', {
       method: 'POST',
-      timeout: 10000,
       headers: { ...headers, 'content-type': 'application/json' },
       body: '{"token":"glados.one"}',
     }).then((r) => r.json())
     const status = await fetch('https://glados.rocks/api/user/status', {
       method: 'GET',
-      timeout: 10000,
       headers,
     }).then((r) => r.json())
     return [
@@ -37,7 +35,6 @@ const notify = async (contents) => {
   if (!token || !contents) return
   await fetch(`https://www.pushplus.plus/send`, {
     method: 'POST',
-    timeout: 10000,
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
       token,
