@@ -39,7 +39,7 @@ const notify = async (contents) => {
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
       msgtype: 'markdown',
-    	text: {
+    	markdown: {
         	content: contents.join('<br>')
     	}
     }),
