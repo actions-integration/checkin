@@ -32,15 +32,16 @@ const glados = async () => {
 
 const notify = async (contents) => {
   const token = process.env.NOTIFY
+  const notifyRebotUrl = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=' + token;
   if (!token || !contents) return
   await fetch(`https://www.pushplus.plus/send`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
-      token,
-      title: contents[0],
-      content: contents.join('<br>'),
-      template: 'markdown',
+      msgtype: 'text',
+    	text: {
+        	content: contents.join('<br>')
+    	}
     }),
   })
 }
