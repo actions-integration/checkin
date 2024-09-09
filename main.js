@@ -34,7 +34,7 @@ const notify = async (contents) => {
   const token = process.env.NOTIFY
   const notifyRebotUrl = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=' + token;
   if (!token || !contents) return
-  await fetch(`https://www.pushplus.plus/send`, {
+  await fetch(notifyRebotUrl, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
