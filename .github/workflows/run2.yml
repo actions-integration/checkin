@@ -17,5 +17,5 @@ jobs:
       - run: npm ci
       - run: npm run main
         env:
-          GLADOS: ${{ secrets.Gmail }}
+          GLADOS: ${{ secrets.GMAIL }}
           NOTIFY: ${{ secrets.NOTIFY }}
