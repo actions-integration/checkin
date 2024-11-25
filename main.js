@@ -37,10 +37,15 @@ const notify = async (contents) => {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
-      token,
-      title: contents[0],
-      content: contents.join('<br>'),
-      template: 'markdown',
+      'appToken': process.env.WXPusherAppToken,
+      'content': '<h1>H1标题</h1><br/><p style=\"color:red;\">' + contents.join('<br>') '</p>',
+      'summary': contents[0],
+      'contentType': 2,
+      'uids': eval(process.env.WXPusherUIDS)
+      //token,
+      //title: contents[0],
+      //content: contents.join('<br>'),
+      //template: 'markdown',
     }),
   })
 }
