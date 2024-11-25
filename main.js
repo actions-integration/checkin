@@ -31,12 +31,13 @@ const glados = async () => {
 }
 
 const notify = async (contents) => {
-  if (!token || !contents) return
+  const appToken = process.env.WXPusherAppToken
+  if (!appToken || !contents) return
   await fetch(`https://wxpusher.zjiecode.com/api/send/message`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
-      'appToken': process.env.WXPusherAppToken,
+      appToken,
       'content': contents.join('<br>'),
       'summary': contents[0],
       'contentType': 3,
