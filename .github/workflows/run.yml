@@ -18,6 +18,5 @@ jobs:
       - run: npm run main
         env:
           GLADOS: ${{ secrets.GLADOS }}
-          NOTIFY: ${{ secrets.NOTIFY }}
           WXPusherAppToken: ${{ secrets.WXPusherAppToken }}
           WXPusherUIDS: ${{ secrets.WXPusherUIDS }}
