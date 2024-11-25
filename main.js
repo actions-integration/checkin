@@ -38,7 +38,7 @@ const notify = async (contents) => {
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
       'appToken': process.env.WXPusherAppToken,
-      'content': '<h1>H1标题</h1><br/><p style=\"color:red;\">' + contents.join('<br>') '</p>',
+      'content': '<h1>H1标题</h1><br/><p style=\"color:red;\">' + contents.join('<br>') + '</p>',
       'summary': contents[0],
       'contentType': 2,
       'uids': eval(process.env.WXPusherUIDS)
