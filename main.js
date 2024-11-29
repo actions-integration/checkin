@@ -39,7 +39,7 @@ const notify = async (contents) => {
     body: JSON.stringify({
       appToken,
       'content': contents.join('<br>'),
-      'summary': contents[0],
+      'summary': 'GLADOS：' + contents[0],
       'contentType': 3,
       'uids': eval(process.env.WXPusherUIDS)
     }),
