@@ -31,18 +31,44 @@ const glados = async () => {
 }
 
 const notify = async (contents) => {
-  const token = process.env.NOTIFY
-  if (!token || !contents) return
-  await fetch(`https://www.pushplus.plus/send`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      token,
-      title: contents[0],
-      content: contents.join('<br>'),
-      template: 'markdown',
-    }),
-  })
+  if (!process.env.NOTIFY || !contents) return
+  const option = String(process.env.NOTIFY)
+  if (option.startsWith('wxpusher:')) {
+    await fetch(`https://wxpusher.zjiecode.com/api/send/message`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        appToken: option.split(':')[1],
+        summary: contents[0],
+        content: contents.join('<br>'),
+        contentType: 3,
+        uids: option.split(':').slice(2),
+      }),
+    })
+  } else if (option.startsWith('pushplus:')) {
+    await fetch(`https://www.pushplus.plus/send`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        token: option.split(':')[1],
+        title: contents[0],
+        content: contents.join('<br>'),
+        template: 'markdown',
+      }),
+    })
+  } else {
+    // fallback
+    await fetch(`https://www.pushplus.plus/send`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        token: option,
+        title: contents[0],
+        content: contents.join('<br>'),
+        template: 'markdown',
+      }),
+    })
+  }
 }
 
 const main = async () => {
