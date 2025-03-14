@@ -41,7 +41,11 @@ const notify = async (notice) => {
   for (const option of String(process.env.NOTIFY).split('\n')) {
     if (!option) continue
     try {
-      if (option.startsWith('wxpusher:')) {
+      if (option.startsWith('console:')) {
+        for (const line of notice) {
+          console.log(line)
+        }
+      } else if (option.startsWith('wxpusher:')) {
         await fetch(`https://wxpusher.zjiecode.com/api/send/message`, {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
