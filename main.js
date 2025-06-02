@@ -68,6 +68,19 @@ const notify = async (notice) => {
             template: 'markdown',
           }),
         })
+      } else if (option.startsWith('qyweixin:')) {
+        const qyweixinToken = option.split(':')[1]
+        const qyweixinNotifyRebotUrl = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=' + qyweixinToken;
+        await fetch(qyweixinNotifyRebotUrl, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            msgtype: 'markdown',
+            markdown: {
+                content: notice.join('<br>')
+            }
+          }),
+        })
       } else {
         // fallback
         await fetch(`https://www.pushplus.plus/send`, {
