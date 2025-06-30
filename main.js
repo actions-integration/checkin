@@ -20,7 +20,7 @@ const glados = async () => {
         method: 'GET',
         headers: { ...common },
       }).then((r) => r.json())
-      console.log('响应内容:', status);
+      console.log('当前状态:', status);
       if (status?.code) throw new Error(status?.message)
       notice.push(
         'Checkin OK',
