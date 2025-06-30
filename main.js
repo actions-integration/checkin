@@ -10,13 +10,15 @@ const glados = async () => {
         'user-agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)',
       }
 
-      console.log('请求头:', { ...common, 'content-type': 'application/json' });
-      
       const action = await fetch('https://glados.rocks/api/user/checkin', {
         method: 'POST',
         headers: { ...common, 'content-type': 'application/json' },
         body: '{"token":"glados.one"}',
       }).then((r) => r.json())
+
+      const data = await response.json();
+      console.log('响应内容:', data);#打印响应内容
+      
       if (action?.code) throw new Error(action?.message)
       const status = await fetch('https://glados.rocks/api/user/status', {
         method: 'GET',
