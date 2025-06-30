@@ -14,14 +14,13 @@ const glados = async () => {
         method: 'POST',
         headers: { ...common, 'content-type': 'application/json' },
         body: '{"token":"glados.one"}',
-      }).then((r) => r.json())
-      console.log('响应内容:', action);
-      
+      }).then((r) => r.json())   
       if (action?.code) throw new Error(action?.message)
       const status = await fetch('https://glados.rocks/api/user/status', {
         method: 'GET',
         headers: { ...common },
       }).then((r) => r.json())
+      console.log('响应内容:', status);
       if (status?.code) throw new Error(status?.message)
       notice.push(
         'Checkin OK',
