@@ -17,7 +17,7 @@ const glados = async () => {
       }).then((r) => r.json())
 
       const data = await response.json();
-      console.log('响应内容:', data);#打印响应内容
+      console.log('响应内容:', data);
       
       if (action?.code) throw new Error(action?.message)
       const status = await fetch('https://glados.rocks/api/user/status', {
