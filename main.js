@@ -9,6 +9,9 @@ const glados = async () => {
         'referer': 'https://glados.rocks/console/checkin',
         'user-agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)',
       }
+
+      console.log('请求头:', { ...common, 'content-type': 'application/json' });
+      
       const action = await fetch('https://glados.rocks/api/user/checkin', {
         method: 'POST',
         headers: { ...common, 'content-type': 'application/json' },
