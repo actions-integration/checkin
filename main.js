@@ -15,12 +15,13 @@ const glados = async () => {
         headers: { ...common, 'content-type': 'application/json' },
         body: '{"token":"glados.one"}',
       }).then((r) => r.json())   
+      console.log('action:', action);
       if (action?.code) throw new Error(action?.message)
       const status = await fetch('https://glados.rocks/api/user/status', {
         method: 'GET',
         headers: { ...common },
       }).then((r) => r.json())
-      console.log('当前状态:', status);
+      console.log('status:', status);
       if (status?.code) throw new Error(status?.message)
       notice.push(
         'Checkin OK',
