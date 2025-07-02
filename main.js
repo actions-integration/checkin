@@ -14,19 +14,28 @@ const glados = async () => {
         method: 'POST',
         headers: { ...common, 'content-type': 'application/json' },
         body: '{"token":"glados.one"}',
-      }).then((r) => r.json())   
+      }).then((r) => r.json());
+  
       console.log('action:', action);
-      if (action?.code) throw new Error(action?.message)
+      if (action?.code) throw new Error(action?.message);
+      
       const status = await fetch('https://glados.rocks/api/user/status', {
         method: 'GET',
         headers: { ...common },
-      }).then((r) => r.json())
+      }).then((r) => r.json());
+      
       console.log('status:', status);
-      if (status?.code) throw new Error(status?.message)
+      if (status?.code) throw new Error(status?.message);
+
+      const balance = action?.list?.[0]?.balance ? Number(action.list[0].balance) : 0;
+      const redeemedDays = Math.floor(balance / 100);
+      
       notice.push(
         'Checkin OK',
         `${action?.message}`,
         `Left Days ${Number(status?.data?.leftDays)}`
+        `Accumulated Check-in Points: ${balance}`,
+        `Successfully Redeemed Days: ${redeemedDays}`
       )
     } catch (error) {
       notice.push(
