@@ -33,10 +33,10 @@ const glados = async () => {
       notice.push(
         'Checkin OK',
         `${action?.message}`,
-        `Left Days ${Number(status?.data?.leftDays)}`
+        `Left Days: ${Number(status?.data?.leftDays)}`,
         `Accumulated Check-in Points: ${balance}`,
         `Successfully Redeemed Days: ${redeemedDays}`
-      )
+      );
     } catch (error) {
       notice.push(
         'Checkin Error',
