@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
   schedule:
-    - cron: 10 16 * * *
+    - cron: 0 0 * * *  # 每天凌晨0点触发（可以改成其他时间点）
 
 jobs:
   run:
@@ -14,6 +14,21 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+
+      # 生成随机等待时间（秒）
+      - name: Calculate random delay
+        id: delay
+        run: |
+          # 生成 0 到 7 小时内的秒数（0 到 25200秒）
+          RANDOM_DELAY=$(( RANDOM % 25200 ))
+          echo "delay=$RANDOM_DELAY" >> $GITHUB_OUTPUT
+
+      # 等待随机秒数
+      - name: Wait for random delay
+        run: |
+          echo "Waiting for ${ { steps.delay.outputs.delay } } seconds before starting main tasks..."
+          sleep ${ { steps.delay.outputs.delay } }
+
       - run: npm ci
       - run: npm run main
         env:
