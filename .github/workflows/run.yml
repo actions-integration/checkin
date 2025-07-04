@@ -23,12 +23,6 @@ jobs:
           RANDOM_DELAY=$(( RANDOM % 25200 ))
           echo "delay=$RANDOM_DELAY" >> $GITHUB_OUTPUT
 
-      # 等待随机秒数
-      - name: Wait for random delay
-        run: |
-          echo "Waiting for ${ { steps.delay.outputs.delay } } seconds before starting main tasks..."
-          sleep ${ { steps.delay.outputs.delay } }
-
       - run: npm ci
       - run: npm run main
         env:
