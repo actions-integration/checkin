@@ -28,7 +28,11 @@ const glados = async () => {
       if (status?.code) throw new Error(status?.message);
 
       const balance = action?.list?.[0]?.balance ? Number(action.list[0].balance) : 0;
-      const redeemedDays = Math.floor(balance / 100);
+      const totalChange = action?.list?.reduce((sum, item) => {
+        const changeValue = parseFloat(item.change);
+        return sum + (isNaN(changeValue) ? 0 : changeValue);
+      }, 0);
+      const redeemDays = Math.floor(totalChange / 100) * 10;
       
       notice.push(
         'Checkin OK',
