@@ -1,10 +1,10 @@
 name: run
 
 on:
+  schedule:
+    - cron: '16 16 * * *'  # 这代表UTC时间的16:00触发；对应中国时间每天00:00
   workflow_dispatch:
   push:
-  schedule:
-    - cron: 0 0 * * *  # 每天凌晨0点触发（可以改成其他时间点）
 
 jobs:
   run:
@@ -19,8 +19,8 @@ jobs:
       - name: Calculate random delay
         id: delay
         run: |
-          # 生成 0 到 7 小时内的秒数（0 到 25200秒）
-          RANDOM_DELAY=$(( RANDOM % 25200 ))
+          # 生成 0 到 18000 秒（0-5小时）
+          RANDOM_DELAY=$(( RANDOM % 18000 ))
           echo "delay=$RANDOM_DELAY" >> $GITHUB_OUTPUT
 
       - run: npm ci
