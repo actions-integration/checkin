@@ -1,4 +1,3 @@
-javascript
 const glados = async () => {
   const cookie = process.env.GLADOS
   if (!cookie) return
