@@ -18,32 +18,35 @@ const glados = async () => {
     }).then((r) => r.json())
     return [
       'Checkin OK',
-      ${checkin.message},
-      Left Days ${Number(status?.data?.leftDays || 0)},  // 使用可选链和默认值
+      `${checkin.message}`,
+      `Left Days ${Number(status.data.leftDays)}`,
     ]
   } catch (error) {
     return [
       'Checkin Error',
-      ${error},
-      ``,
+      `${error}`,
+      `<${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}>`,
     ]
   }
 }
+
 const notify = async (contents) => {
   const token = process.env.NOTIFY
   if (!token || !contents) return
-  await fetch(https://www.pushplus.plus/send, {
+  await fetch(`https://www.pushplus.plus/send`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
       token,
       title: contents[0],
-      content: contents.join(''),
+      content: contents.join('<br>'),
       template: 'markdown',
     }),
   })
 }
+
 const main = async () => {
   await notify(await glados())
 }
+
 main()
