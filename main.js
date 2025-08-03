@@ -1,5 +1,3 @@
-以下是修复后的完整代码版本，包含错误处理和默认值保护：
-javascript
 const glados = async () => {
   const cookie = process.env.GLADOS;
   if (!cookie) return ['Config Error', 'Missing GLADOS cookie', ''];
