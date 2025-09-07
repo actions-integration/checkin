@@ -79,7 +79,10 @@ def main():
 
     # 获取所有股票代码列表
     print("正在获取所有股票列表...")
-    rs = bs.query_all_stock(code_name="")
+    
+    # 修正: 移除已废弃的 'code_name' 参数
+    rs = bs.query_all_stock()
+    
     stock_list = []
     while (rs.error_code == '0') & rs.next():
         stock_list.append(rs.get_row_data())
