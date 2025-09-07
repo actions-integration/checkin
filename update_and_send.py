@@ -4,12 +4,14 @@ import pandas as pd
 import baostock as bs
 import requests
 import json
+import time
 from io import BytesIO
 
 # ---------------- 配置 ----------------
 WORKER_ENDPOINT = os.getenv("WORKER_ENDPOINT")
 WORKER_AUTH_TOKEN = os.getenv("WORKER_AUTH_TOKEN")
 START_DATE = "2008-01-01"
+MAX_RETRY = 3
 
 if not all([WORKER_ENDPOINT, WORKER_AUTH_TOKEN]):
     raise ValueError("环境变量未完全设置，请检查 WORKER_ENDPOINT 和 WORKER_AUTH_TOKEN")
@@ -75,30 +77,46 @@ def send_data_to_worker(ts_code, df):
 
 def main():
     print("🚀 开始执行股票数据获取与发送脚本...")
-    lg = login_baostock()
-
-    # 获取所有股票代码列表
-    print("正在获取所有股票列表...")
     
-    # 修正: 移除已废弃的 'code_name' 参数
-    rs = bs.query_all_stock()
-    
-    stock_list = []
-    while (rs.error_code == '0') & rs.next():
-        stock_list.append(rs.get_row_data())
-    
-    df_stocks = pd.DataFrame(stock_list, columns=rs.fields)
-    print(f"找到 {len(df_stocks)} 只股票。")
+    # --- 增加重试逻辑 ---
+    for i in range(MAX_RETRY):
+        try:
+            lg = login_baostock()
+            
+            print("正在获取所有股票列表...")
+            rs = bs.query_all_stock()
+            
+            stock_list = []
+            while (rs.error_code == '0') & rs.next():
+                stock_list.append(rs.get_row_data())
+            
+            df_stocks = pd.DataFrame(stock_list, columns=rs.fields)
 
-    for index, row in df_stocks.iterrows():
-        ts_code = row["code"]
-        # 获取股票数据
-        df_history = fetch_history(ts_code)
-        # 将数据发送给 Worker
-        send_data_to_worker(ts_code, df_history)
+            if len(df_stocks) == 0:
+                print(f"⚠️ 第 {i+1} 次尝试：未找到股票数据，正在重试...")
+                bs.logout()
+                time.sleep(5)  # 等待5秒后重试
+                continue
+            
+            print(f"✅ 找到 {len(df_stocks)} 只股票，开始处理。")
 
-    bs.logout()
-    print("✅ 所有任务完成，Baostock 已登出。")
+            for index, row in df_stocks.iterrows():
+                ts_code = row["code"]
+                # 获取股票数据
+                df_history = fetch_history(ts_code)
+                # 将数据发送给 Worker
+                send_data_to_worker(ts_code, df_history)
+
+            bs.logout()
+            print("✅ 所有任务完成，Baostock 已登出。")
+            return # 任务成功，退出函数
+        
+        except Exception as e:
+            print(f"❌ 第 {i+1} 次尝试失败：{e}")
+            bs.logout()
+            time.sleep(5)  # 等待5秒后重试
+            
+    print("❌ 达到最大重试次数，任务失败。")
 
 if __name__ == "__main__":
     main()
