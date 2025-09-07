@@ -1,0 +1,32 @@
+name: Update Stock Data via Worker
+
+on:
+  schedule:
+    - cron: '0 10 * * 1-5'
+
+  workflow_dispatch:
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install baostock pandas requests fastparquet
+
+      - name: Run stock data fetch script
+        env:
+          WORKER_ENDPOINT: ${{ secrets.WORKER_ENDPOINT }}
+          WORKER_AUTH_TOKEN: ${{ secrets.WORKER_AUTH_TOKEN }}
+        run: |
+          python update_and_send.py
