@@ -3,6 +3,7 @@
 1. 未输出日志，不知道是否成功
 2. pushplus 研究
 GitHub Actions 实现 [GLaDOS][glados] 自动签到
+3. 修改模板
 
 ([GLaDOS][glados] 可用邀请码: `MW4DK-O0RSF-C7AOU-EN1MP`, 双方都有奖励天数)
 
