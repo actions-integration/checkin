@@ -4,6 +4,7 @@
 2. pushplus 研究
 GitHub Actions 实现 [GLaDOS][glados] 自动签到
 3. 修改模板
+4. 多账号测试
 
 ## 使用说明
 
